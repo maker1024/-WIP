@@ -1,0 +1,76 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion Integer.parseInt(compileSdk)
+    buildToolsVersion String.valueOf(buildTools)
+    defaultConfig {
+        applicationId "com.anights.wip"
+        minSdkVersion Integer.parseInt(minSdk)
+        targetSdkVersion Integer.parseInt(targetSdk)
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'anightswip'
+            keyPassword '123456'
+            storeFile file(rootProject.file('wip_release.keystore'))
+            storePassword '123456'
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
+            signingConfig signingConfigs.release
+        }
+
+        release {
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    /*针对app的输出文件改名*/
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+////            def fullName = output.outputFile.name
+//            def fileName = "csp" +
+//                    "_${defaultConfig.versionName}" +
+////                    "_${defaultConfig.versionCode}" +
+////                    "_${variant.flavorName}" +
+//                    "_${variant.buildType.name}" +
+//                    new Date().format("yyyyMMddHHmmss") +
+//                    ".apk"
+//            if (project.hasProperty('IS_TEST')) {
+//                fileName = "test_" + fileName
+//            }
+            outputFileName = "WIP.apk"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(path: ':bundle_platform')
+    if (!isSingleModuleRunning.toBoolean()) {
+        implementation project(path: ':bundle_main')
+        implementation project(path: ':bundle_platform')
+    }
+    implementation "androidx.appcompat:appcompat:$appcompat"
+
+    testImplementation "junit:junit:$junit"
+    androidTestImplementation "androidx.test.ext:junit:$androidJunit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCore"
+}

@@ -1,0 +1,2 @@
+include ':app', ':bundle_main', ':bundle_platform'
+rootProject.name='wip'

@@ -1,0 +1,12 @@
+if (isSingleModuleRunning.toBoolean()) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
+apply from: rootProject.file('script/library-base.gradle')
+
+dependencies {
+    testImplementation "junit:junit:$junit"
+    androidTestImplementation "androidx.test.ext:junit:$androidJunit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCore"
+}

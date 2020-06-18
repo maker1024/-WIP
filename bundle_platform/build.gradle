@@ -1,0 +1,54 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion Integer.parseInt(compileSdk)
+    buildToolsVersion String.valueOf(buildTools)
+
+    defaultConfig {
+        minSdkVersion Integer.parseInt(minSdk)
+        targetSdkVersion Integer.parseInt(targetSdk)
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            buildConfigField "String", "API_HOST", "\"https://data.gov.sg/api/\""
+        }
+
+        debug {
+            if (project.hasProperty('sit')) {
+                // test
+                buildConfigField "String", "API_HOST", "\"https://data.gov.sg/api/\""
+            } else if (project.hasProperty('uat')) {
+                // uat
+                buildConfigField "String", "API_HOST", "\"https://data.gov.sg/api/\""
+            } else {
+                // dev
+                buildConfigField "String", "API_HOST", "\"https://data.gov.sg/api/\""
+            }
+        }
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    api "com.squareup.okhttp3:okhttp:$okhttp"
+    api "androidx.appcompat:appcompat:$appcompat"
+
+    testImplementation "junit:junit:$junit"
+    androidTestImplementation "androidx.test.ext:junit:$androidJunit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCore"
+}

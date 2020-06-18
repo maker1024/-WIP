@@ -1,0 +1,37 @@
+android {
+    compileSdkVersion Integer.parseInt(compileSdk)
+    buildToolsVersion String.valueOf(buildTools)
+
+    defaultConfig {
+        minSdkVersion Integer.parseInt(minSdk)
+        targetSdkVersion Integer.parseInt(targetSdk)
+        resConfig "zh"
+        versionCode 1
+        versionName "1.0"
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    resourcePrefix project.name + '_'
+
+    sourceSets {
+        main {
+            if (isSingleModuleRunning.toBoolean()) {
+                manifest.srcFile 'src/main/singleModuleMainfest/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                //集成开发模式下排除singleModuleRunningSrc文件夹中的所有文件
+                java {
+                    exclude 'singleModuleRunningSrc/**'
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api project(':bundle_platform')
+}
