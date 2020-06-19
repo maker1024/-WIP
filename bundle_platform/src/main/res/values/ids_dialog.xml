@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--自定义普通对话框的消息控件id-->
+    <item name="dialog_custom_view_id_msg" type="id" />
+    <!--自定义普通对话框的左边按钮控件id-->
+    <item name="dialog_custom_view_id_leftbtn" type="id" />
+    <!--自定义普通对话框的右边按钮控件id-->
+    <item name="dialog_custom_view_id_rightbtn" type="id" />
+    <!--自定义普通对话框的左右按钮控件分割线id-->
+    <item name="dialog_custom_view_id_lr_divide" type="id" />
+    <!--自定义普通对话框的关闭控件id-->
+    <item name="dialog_custom_view_id_close" type="id" />
+    <!--自定义普通对话框的标题控件id-->
+    <item name="dialog_custom_view_id_title" type="id" />
+</resources>

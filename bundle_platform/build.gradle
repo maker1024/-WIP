@@ -46,8 +46,18 @@ android {
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     api "com.squareup.okhttp3:okhttp:$okhttp"
+    api "com.google.code.gson:gson:$gson"
     api "androidx.appcompat:appcompat:$appcompat"
-
+    api "androidx.lifecycle:lifecycle-viewmodel:$lifecycle"
+    api "androidx.lifecycle:lifecycle-livedata:$lifecycle"
+    api "androidx.lifecycle:lifecycle-runtime:$lifecycle"
+    api "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle"
+    api "androidx.lifecycle:lifecycle-process:$lifecycle"
+    api "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout"
+    api "androidx.recyclerview:recyclerview:$recyclerview"
+    api "com.github.PhilJay:MPAndroidChart:$MPAndroidChart"
+    api "androidx.cardview:cardview:$cardview"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle"
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.ext:junit:$androidJunit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCore"

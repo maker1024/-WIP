@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bundle_platform_dialog_normal_ui_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dialog_custom_view_id_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            android:textColor="#ff333333"
+            android:textSize="16sp"
+            tools:text="确认退出" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E4E4E4" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dialog_custom_view_id_leftbtn"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="#3E9DFF"
+                android:textSize="16sp"
+                tools:text="取消" />
+
+            <View
+                android:id="@+id/dialog_custom_view_id_lr_divide"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#E4E4E4" />
+
+            <TextView
+                android:id="@+id/dialog_custom_view_id_rightbtn"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="#3E9DFF"
+                android:textSize="16sp"
+                tools:text="确认" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>
