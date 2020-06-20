@@ -6,4 +6,5 @@
     <string name="platform_click_refresh">请点击刷新页面</string>
     <string name="platform_load_fail">加载失败</string>
     <string name="platform_no_network">暂无网络</string>
+    <string name="platform_service_error">服务暂不可用</string>
 </resources>

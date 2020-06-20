@@ -3,7 +3,7 @@ package com.anightswip.bundleplatform.baselayer;
 import android.app.Application;
 
 import com.anightswip.bundleplatform.baselayer.toast.ToastView;
-import com.anightswip.bundleplatform.commonlib.activitymanager.activitymanager.ManagerActivity;
+import com.anightswip.bundleplatform.commonlib.activitymanager.ManagerActivity;
 
 
 public class BaseApplication extends Application {
@@ -14,7 +14,7 @@ public class BaseApplication extends Application {
         init();
     }
 
-    private void init(){
+    private void init() {
         ToastView.init(getApplicationContext());
         ManagerActivity.initInApp();
     }

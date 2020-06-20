@@ -1,4 +1,4 @@
-package com.anightswip.bundleplatform.commonlib.activitymanager.activitymanager;
+package com.anightswip.bundleplatform.commonlib.activitymanager;
 
 import android.app.Activity;
 

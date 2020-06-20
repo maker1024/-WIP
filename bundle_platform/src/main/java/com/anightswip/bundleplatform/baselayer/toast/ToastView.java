@@ -5,19 +5,27 @@ import android.view.Gravity;
 
 import com.anightswip.bundleplatform.commonlib.utils.ToastUtil;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Toast提示框
  */
 public class ToastView {
 
-    private static Context mContext;
+    private static WeakReference<Context> mContext;
 
     public static void init(Context context) {
-        mContext = context.getApplicationContext();
+        mContext = new WeakReference<>(context.getApplicationContext());
     }
 
     public static void show(String msg) {
-        if(mContext==null) return;
-        ToastUtil.show(mContext, null, msg, Gravity.CENTER, 0, 0, 4000);
+        if (mContext == null || mContext.get() == null) return;
+        ToastUtil.show(
+                mContext.get(),
+                null, msg,
+                Gravity.CENTER,
+                0,
+                0,
+                4000);
     }
 }

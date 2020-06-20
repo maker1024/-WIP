@@ -1,4 +1,4 @@
-package com.anightswip.bundleplatform.commonlib.activitymanager.activitymanager;
+package com.anightswip.bundleplatform.commonlib.activitymanager;
 
 import android.app.Activity;
 
@@ -8,10 +8,6 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.OnLifecycleEvent;
 
 /**
- * author : sangyi475
- * e-mail : SANGYI475@pingan.com.cn
- * desc   :
- * <p>
  * 用在Activity中的Lifecycle，监听create和destory事件，add和remove此Acitvity到ManagerActivity中
  */
 class ManagerActivityWithActivity implements LifecycleObserver {

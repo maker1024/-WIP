@@ -9,4 +9,8 @@ dependencies {
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.ext:junit:$androidJunit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCore"
+    annotationProcessor "androidx.room:room-compiler:$room"
+    testImplementation "androidx.room:room-testing:$room"
+    testImplementation "com.jraska.livedata:testing:$livedataTesting"
+    testImplementation "androidx.arch.core:core-testing:$coreTesting"
 }

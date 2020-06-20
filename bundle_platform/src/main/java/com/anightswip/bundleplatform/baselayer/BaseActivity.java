@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.anightswip.bundleplatform.baselayer.page.GeneralPageManager;
-import com.anightswip.bundleplatform.commonlib.activitymanager.activitymanager.ManagerActivity;
+import com.anightswip.bundleplatform.commonlib.activitymanager.ManagerActivity;
 import com.anightswip.bundleplatform.commonlib.page.IPageAble;
 
 

@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.anightswip.bundleplatform.R;
-import com.anightswip.bundleplatform.baselayer.page.PageCommonTipsView;
 import com.anightswip.bundleplatform.commonlib.page.IPageCommonTipsView;
 import com.anightswip.bundleplatform.databinding.BundlePlatformBasePageBinding;
 import com.anightswip.bundleplatform.databinding.BundlePlatformPageCommonLoadingBinding;

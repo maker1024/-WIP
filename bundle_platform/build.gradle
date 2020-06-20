@@ -8,6 +8,12 @@ android {
         minSdkVersion Integer.parseInt(minSdk)
         targetSdkVersion Integer.parseInt(targetSdk)
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/room_db".toString()]
+            }
+        }
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -57,8 +63,16 @@ dependencies {
     api "androidx.recyclerview:recyclerview:$recyclerview"
     api "com.github.PhilJay:MPAndroidChart:$MPAndroidChart"
     api "androidx.cardview:cardview:$cardview"
+    api "androidx.room:room-runtime:$room"
+
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle"
+    annotationProcessor "androidx.room:room-compiler:$room"
+
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.ext:junit:$androidJunit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCore"
+    testImplementation "androidx.room:room-testing:$room"
+    testImplementation "com.jraska.livedata:testing:$livedataTesting"
+    testImplementation "androidx.arch.core:core-testing:$coreTesting"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$mockwebserver"
 }
