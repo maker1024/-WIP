@@ -30,7 +30,7 @@ public class RepositoryMobileDataTest {
 
     @Before
     public void setUp(){
-        AppExecutors.init();
+//        AppExecutors.init();
     }
 
     @Test
@@ -51,22 +51,22 @@ public class RepositoryMobileDataTest {
                 });
     }
 
-    @Test
-    public void RepositoryMobileDatagetAllMobileDataTestDbEmpty() throws Exception {
-        RepositoryMobileData repositoryMobileData =
-                new RepositoryMobileData(new DaoMobileDataImpl2(), new MobileDataBusinessImplTest());
-
-        LiveData<BaseNetResponse<BeanMobileDataList>> ld = repositoryMobileData.getAllMobileData();
-        TestObserver.test(ld)
-                .awaitValue()
-                .assertHasValue()
-                .assertValue(new Function<BaseNetResponse<BeanMobileDataList>, Boolean>() {
-                    @Override
-                    public Boolean apply(BaseNetResponse<BeanMobileDataList> input) {
-                        boolean result = input.hasError == false;
-                        return result;
-                    }
-                });
-    }
+//    @Test
+//    public void RepositoryMobileDatagetAllMobileDataTestDbEmpty() throws Exception {
+//        RepositoryMobileData repositoryMobileData =
+//                new RepositoryMobileData(new DaoMobileDataImpl2(), new MobileDataBusinessImplTest());
+//
+//        LiveData<BaseNetResponse<BeanMobileDataList>> ld = repositoryMobileData.getAllMobileData();
+//        TestObserver.test(ld)
+//                .awaitValue()
+//                .assertHasValue()
+//                .assertValue(new Function<BaseNetResponse<BeanMobileDataList>, Boolean>() {
+//                    @Override
+//                    public Boolean apply(BaseNetResponse<BeanMobileDataList> input) {
+//                        boolean result = input.hasError == false;
+//                        return result;
+//                    }
+//                });
+//    }
 
 }
