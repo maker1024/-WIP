@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import java.util.HashMap;
 
+import okhttp3.mockwebserver.Dispatcher;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -51,7 +52,18 @@ public class NetWorkHttpTest {
     @Test
     public void httpGetTest() throws Exception {
         MockWebServer server = new MockWebServer();
-        server.enqueue(new MockResponse().setBody("444"));
+        final Dispatcher dispatcher = new Dispatcher() {
+            @Override
+            public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
+
+                switch (request.getPath()) {
+                    case "/api/action/datastore_search?limit=59&resource_id=a807b7ab-6cad-4aa6-87d0-e283a7353a0f":
+                        return new MockResponse().setResponseCode(200).setBody("{\"success\": true}");
+                }
+                return new MockResponse().setResponseCode(404);
+            }
+        };
+        server.setDispatcher(dispatcher);
         server.start();
         String urlStr = server.url("api/action/datastore_search").url().toString();
         HashMap<String, String> params = new HashMap<>();
@@ -62,10 +74,16 @@ public class NetWorkHttpTest {
                     ApiManager.getInstance().getAsLivedata(BeanMobileDataList.class, params, urlStr))
                     .awaitValue()
                     .assertHasValue()
+//                    .doOnChanged(new Consumer<BaseNetResponse<BeanMobileDataList>>() {
+//                        @Override
+//                        public void accept(BaseNetResponse<BeanMobileDataList> value) {
+//                            assertFalse(value.info.success);
+//                        }
+//                    })
                     .assertValue(new Function<BaseNetResponse<BeanMobileDataList>, Boolean>() {
                         @Override
                         public Boolean apply(BaseNetResponse<BeanMobileDataList> input) {
-                            boolean result = input.info == null;
+                            boolean result = input.errCode == BaseNetResponse.ERROR_DATA;
                             return result;
                         }
                     });

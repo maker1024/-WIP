@@ -4,19 +4,12 @@
     package="com.anights.wip">
 
     <application
-        android:name="com.anightswip.bundleplatform.BaseApplication"
+        android:name="com.anightswip.bundleplatform.baselayer.BaseApplication"
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.anightswip.bundlemain.HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

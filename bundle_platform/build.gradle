@@ -75,4 +75,5 @@ dependencies {
     testImplementation "com.jraska.livedata:testing:$livedataTesting"
     testImplementation "androidx.arch.core:core-testing:$coreTesting"
     testImplementation "com.squareup.okhttp3:mockwebserver:$mockwebserver"
+    testImplementation 'org.assertj:assertj-core:3.15.0'
 }

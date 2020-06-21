@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">wip</string>
+    <string name="header_title">Mobile Data Usage</string>
 </resources>
