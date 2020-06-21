@@ -1,13 +1,8 @@
 package com.anightswip.bundleplatform.commonlib.network;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import com.anightswip.bundleplatform.commonlib.utils.GsonUtil;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import java.io.IOException;
 import java.security.KeyStore;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,19 +14,18 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
-import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 
 /**
- * 网络请求
+ * 网络请求管理
  */
 public class ApiManager implements IHttpRequest {
 
     private static volatile ApiManager mInstance;
     private OkHttpClient mOkHttpClient;
+    private IResponseParse2Bean mResponseParser;
 
     private ApiManager() {
         mOkHttpClient = buildOkhttpClient();
@@ -48,55 +42,56 @@ public class ApiManager implements IHttpRequest {
         return mInstance;
     }
 
+    /**
+     * 设置Json接口定义相关字段的解析器
+     * @param httpParser 实现IResponseParse2Bean的解析器
+     */
+    public void init(@NonNull IResponseParse2Bean httpParser) {
+        if (httpParser == null) {
+            throw new IllegalStateException("method param 'httpParser' should not be NULL!");
+        }
+        mResponseParser = httpParser;
+    }
+
+    /**
+     * 接口请求，http的get方法
+     * @param requestParametersMap 请求参数
+     * @param url 带有host的url接口地址
+     * @param callback 注意callback的方法是运行在子线程而不是UI线程
+     */
+    public void getAsCallback(
+            HashMap<String, String> requestParametersMap,
+            String url,
+            Callback callback) {
+        String wholeUrl = Utils.parseRequestParam(requestParametersMap, url);
+        Request request = new Request.Builder()
+                .get()
+                .url(wholeUrl == null ? "" : wholeUrl)
+                .build();
+        mOkHttpClient.newCall(request).enqueue(callback);
+    }
+
     @Override
     public <T> LiveData<BaseNetResponse<T>> getAsLivedata(
             final Class<T> classT,
             HashMap<String, String> requestParametersMap,
             String url) {
-        final MutableLiveData<BaseNetResponse<T>> lv = new MutableLiveData<>();
-        String wholeUrl = Utils.parseRequestParam(requestParametersMap, url);
-        Request request2 = new Request.Builder()
-                .get()
-                .url(wholeUrl == null ? "" : wholeUrl)
-                .build();
-        mOkHttpClient.newCall(request2).enqueue(new Callback() {
+        if (mResponseParser == null) {
+            throw new IllegalStateException("call 'ApiManager.getInstance().init()' first!");
+        }
+        Callback2LiveData<T> callback2LiveData = new Callback2LiveData<T>(mResponseParser, classT) {
             @Override
-            public void onFailure(Call call, IOException e) {
-                mOkHttpClient = buildOkhttpClient();//断网重连需要重新初始化httpclient
-                lv.postValue(BaseNetResponse.errorNetwork());
+            void onNetworkReconnection() {
+                mOkHttpClient = buildOkhttpClient();
             }
-
-            @Override
-            public void onResponse(Call call, Response response) {
-                try {
-                    if (!response.isSuccessful()) {
-                        lv.postValue(BaseNetResponse.errorService());
-                        return;
-                    }
-                    JsonObject jsonResponse =
-                            JsonParser.parseString(response.body().string()).getAsJsonObject();
-                    if (!jsonResponse.get("success").getAsBoolean()) {
-                        lv.postValue(BaseNetResponse.errorService());
-                        return;
-                    }
-                    T bean = GsonUtil.getReponseBean(
-                            jsonResponse.get("result").getAsJsonObject().toString(), classT);
-                    if (bean == null) {
-                        lv.postValue(BaseNetResponse.errorData());
-                        return;
-                    }
-                    BaseNetResponse<T> responseClient = new BaseNetResponse<>();
-                    responseClient.info = bean;
-                    lv.postValue(responseClient);
-                } catch (Exception e) {
-                    lv.postValue(BaseNetResponse.errorService());
-                }
-            }
-        });
-        return lv;
+        };
+        getAsCallback(requestParametersMap, url, callback2LiveData);
+        return callback2LiveData.getResultAsLiveData();
     }
 
+    //生成默认的okhttpclient
     private OkHttpClient buildOkhttpClient() {
+        //获取https请求的client
         try {
             TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(
                     TrustManagerFactory.getDefaultAlgorithm());
@@ -121,6 +116,7 @@ public class ApiManager implements IHttpRequest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //获取https的失败，只能获取http的
         return new OkHttpClient.Builder()
                 .connectTimeout(8 * 1000, TimeUnit.MILLISECONDS)
                 .readTimeout(8 * 1000, TimeUnit.MILLISECONDS)
