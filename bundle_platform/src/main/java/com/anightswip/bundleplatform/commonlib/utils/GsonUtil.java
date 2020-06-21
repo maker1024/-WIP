@@ -1,7 +1,5 @@
 package com.anightswip.bundleplatform.commonlib.utils;
 
-import android.text.TextUtils;
-
 import com.google.gson.Gson;
 
 /**
@@ -16,7 +14,7 @@ public class GsonUtil {
      * @return
      */
     public static <T> T getReponseBean(String jsonStr, Class<T> classOfT) {
-        if (TextUtils.isEmpty(jsonStr)) {
+        if (jsonStr == null || jsonStr.length() <= 0 || classOfT == null) {
             return null;
         }
         try {

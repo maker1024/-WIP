@@ -59,7 +59,7 @@ public class ApiManager implements IHttpRequest {
      * @param url 带有host的url接口地址
      * @param callback 注意callback的方法是运行在子线程而不是UI线程
      */
-    public void getAsCallback(
+    private void getAsCallback(
             HashMap<String, String> requestParametersMap,
             String url,
             Callback callback) {

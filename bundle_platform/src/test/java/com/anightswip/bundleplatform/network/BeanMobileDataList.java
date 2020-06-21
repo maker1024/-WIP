@@ -1,4 +1,4 @@
-package com.anightswip.bundleplatform;
+package com.anightswip.bundleplatform.network;
 
 import com.anightswip.bundleplatform.baselayer.Bean.BeanBase;
 import com.anightswip.bundleplatform.baselayer.Bean.BeanBaseNetReponse;

@@ -47,6 +47,14 @@ android {
         }
     }
 
+    testOptions {
+        reportDir "$rootDir/test-reports"
+        resultsDir "$rootDir/test-results"
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
 }
 
 dependencies {
@@ -76,4 +84,5 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:$coreTesting"
     testImplementation "com.squareup.okhttp3:mockwebserver:$mockwebserver"
     testImplementation 'org.assertj:assertj-core:3.15.0'
+    testImplementation "org.mockito:mockito-core:$mockitoCore"
 }

@@ -1,7 +1,5 @@
 package com.anightswip.bundleplatform.baselayer.network;
 
-import android.text.TextUtils;
-
 import androidx.annotation.NonNull;
 
 import com.anightswip.bundleplatform.commonlib.network.IResponseParse2Bean;
@@ -16,7 +14,7 @@ public class HttpResponseParser implements IResponseParse2Bean {
 
     @Override
     public <T> T onParse(@NonNull String httpResponse, Class<T> classT) {
-        if (TextUtils.isEmpty(httpResponse)) return null;
+        if (httpResponse == null || httpResponse.isEmpty()) return null;
         JsonObject jsonResponse =
                 JsonParser.parseString(httpResponse).getAsJsonObject();
         if (!jsonResponse.get("success").getAsBoolean()) {

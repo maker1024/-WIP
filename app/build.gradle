@@ -59,6 +59,14 @@ android {
             outputFileName = "WIP.apk"
         }
     }
+
+    testOptions {
+        reportDir "$rootDir/test-reports"
+        resultsDir "$rootDir/test-results"
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {

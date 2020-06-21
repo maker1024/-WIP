@@ -8,9 +8,6 @@ import com.anights.wip.databinding.ActivitySplashBinding;
 import com.anights.wip.frame.ActivityFrame;
 import com.anightswip.bundleplatform.baselayer.BaseActivity;
 
-/**
- * 启动页
- */
 public class ActivitySplash extends BaseActivity {
 
     @Override

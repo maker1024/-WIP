@@ -1,7 +1,5 @@
 package com.anightswip.bundleplatform.commonlib.network;
 
-import android.text.TextUtils;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -47,7 +45,7 @@ public abstract class Callback2LiveData<T> implements Callback {
                 return;
             }
             String responseStr = response.body().string();
-            if (TextUtils.isEmpty(responseStr)) {
+            if (responseStr == null || responseStr.isEmpty()) {
                 mResultLd.postValue(BaseNetResponse.errorData());
                 return;
             }
@@ -56,9 +54,7 @@ public abstract class Callback2LiveData<T> implements Callback {
                 mResultLd.postValue(BaseNetResponse.errorData());
                 return;
             }
-            BaseNetResponse<T> responseClient = new BaseNetResponse<>();
-            responseClient.info = bean;
-            mResultLd.postValue(responseClient);
+            mResultLd.postValue(BaseNetResponse.success(bean));
         } catch (Exception e) {
             mResultLd.postValue(BaseNetResponse.errorService());
         }

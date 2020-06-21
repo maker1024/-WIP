@@ -1,13 +1,13 @@
 package com.anightswip.bundleplatform.commonlib.page;
 
 import androidx.annotation.IntDef;
-import androidx.lifecycle.MutableLiveData;
-
-import com.anightswip.bundleplatform.commonlib.network.BaseNetResponse;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+/**
+ * 页面状态
+ */
 public class BasePageStatus {
 
     @StatusCode
