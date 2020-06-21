@@ -1,19 +1,19 @@
 package com.anightswip.bundlemain.repository;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
 import com.anightswip.bundlemain.bean.BeanMobileDataList;
+import com.anightswip.bundlemain.business.IMobileDataBusiness;
+import com.anightswip.bundlemain.business.MobileDataBusinessImpl;
 import com.anightswip.bundlemain.db.DaoMobileData;
 import com.anightswip.bundlemain.db.MainDatabase;
-import com.anightswip.bundleplatform.baselayer.contant.ApiPath;
 import com.anightswip.bundleplatform.commonlib.executor.AppExecutors;
-import com.anightswip.bundleplatform.commonlib.network.ApiManager;
 import com.anightswip.bundleplatform.commonlib.network.BaseNetResponse;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,10 +23,19 @@ public class RepositoryMobileData {
 
     private DaoMobileData mDaoMobileData;
     private MediatorLiveData<BaseNetResponse<BeanMobileDataList>> mResultLd;
+    private IMobileDataBusiness mBusiness;
 
     public RepositoryMobileData() {
         mDaoMobileData = MainDatabase.getInstance().mobileDataDao();
         mResultLd = new MediatorLiveData<>();
+        mBusiness = new MobileDataBusinessImpl();
+    }
+
+    public RepositoryMobileData(@NonNull DaoMobileData daoMobileData,
+                                @NonNull IMobileDataBusiness business) {
+        mResultLd = new MediatorLiveData<>();
+        mDaoMobileData = daoMobileData;
+        mBusiness = business;
     }
 
     /**
@@ -47,7 +56,7 @@ public class RepositoryMobileData {
                 final BeanMobileDataList beanMobileDataListResult = new BeanMobileDataList();
                 if (beanMobileData == null || beanMobileData.isEmpty()) {
                     //数据为空，就网络获取
-                    final LiveData<BaseNetResponse<BeanMobileDataList>> netLd = fetchMobileDataNet();
+                    final LiveData<BaseNetResponse<BeanMobileDataList>> netLd = mBusiness.fetchMobileDataNet();
                     mResultLd.addSource(netLd, new Observer<BaseNetResponse<BeanMobileDataList>>() {
                         @Override
                         public void onChanged(final BaseNetResponse<BeanMobileDataList> beanMobileDataListBaseNetResponse) {
@@ -90,13 +99,5 @@ public class RepositoryMobileData {
             }
         });
         return mResultLd;
-    }
-
-    //获取网络数据
-    private LiveData<BaseNetResponse<BeanMobileDataList>> fetchMobileDataNet() {
-        HashMap<String, String> params = new HashMap<>();
-        params.put("resource_id", "a807b7ab-6cad-4aa6-87d0-e283a7353a0f");
-        params.put("limit", "59");
-        return ApiManager.getInstance().getAsLivedata(BeanMobileDataList.class, params, ApiPath.DATASTORE_SEARCH);
     }
 }

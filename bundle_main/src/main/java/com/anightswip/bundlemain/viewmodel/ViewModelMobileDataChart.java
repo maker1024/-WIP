@@ -19,10 +19,12 @@ import java.util.ArrayList;
 public class ViewModelMobileDataChart extends PageViewModel {
 
     private MediatorLiveData<BViewMobileDataChart> mUILiveData;
-
+    private RepositoryMobileData mRepositoryMobileData;
 
     public ViewModelMobileDataChart() {
+        super();
         mUILiveData = new MediatorLiveData<>();
+        mRepositoryMobileData = new RepositoryMobileData();
     }
 
     public LiveData<BViewMobileDataChart> getViewData() {
@@ -30,8 +32,7 @@ public class ViewModelMobileDataChart extends PageViewModel {
     }
 
     public void fetchMobileData() {
-        RepositoryMobileData rp = new RepositoryMobileData();
-        mUILiveData.addSource(rp.getAllMobileData(), new Observer<BaseNetResponse<BeanMobileDataList>>() {
+        mUILiveData.addSource(mRepositoryMobileData.getAllMobileData(), new Observer<BaseNetResponse<BeanMobileDataList>>() {
             @Override
             public void onChanged(BaseNetResponse<BeanMobileDataList> response) {
                 if (pageStatusNotify(response)) {

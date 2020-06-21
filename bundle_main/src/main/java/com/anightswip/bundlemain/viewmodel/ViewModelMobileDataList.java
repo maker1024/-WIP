@@ -1,7 +1,5 @@
 package com.anightswip.bundlemain.viewmodel;
 
-import android.text.TextUtils;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
@@ -20,9 +18,11 @@ import java.util.ArrayList;
 public class ViewModelMobileDataList extends PageViewModel {
 
     private MediatorLiveData<BViewMobileDataList> mUILiveData;
+    private RepositoryMobileData mRepositoryMobileData;
 
     public ViewModelMobileDataList() {
         mUILiveData = new MediatorLiveData<>();
+        mRepositoryMobileData = new RepositoryMobileData();
     }
 
     public LiveData<BViewMobileDataList> getViewData() {
@@ -30,8 +30,7 @@ public class ViewModelMobileDataList extends PageViewModel {
     }
 
     public void fetchMobileData() {
-        RepositoryMobileData rp = new RepositoryMobileData();
-        mUILiveData.addSource(rp.getAllMobileData(), new Observer<BaseNetResponse<BeanMobileDataList>>() {
+        mUILiveData.addSource(mRepositoryMobileData.getAllMobileData(), new Observer<BaseNetResponse<BeanMobileDataList>>() {
             @Override
             public void onChanged(BaseNetResponse<BeanMobileDataList> response) {
                 if (pageStatusNotify(response)) {
@@ -60,7 +59,7 @@ public class ViewModelMobileDataList extends PageViewModel {
         for (BeanMobileDataList.BeanMobileData tempBean : records) {
             String[] yearAndQuarter = tempBean.quarter.trim().split("-");
             BigDecimal currentQuarterData = new BigDecimal(tempBean.volume_of_mobile_data);
-            if (TextUtils.equals(currentYear, yearAndQuarter[0])) {
+            if (currentYear != null && currentYear.equals(yearAndQuarter[0])) {
                 //如果是当前年度，比较季度数据，增加总数据
                 if (currentQuarterData.compareTo(preQuarterData) < 0) {
                     if (tempBv == null) tempBv = new BViewMobileDataList.BViewMobileData();

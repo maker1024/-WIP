@@ -78,7 +78,21 @@ dependencies {
     }
     implementation "androidx.appcompat:appcompat:$appcompat"
 
-    testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.ext:junit:$androidJunit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCore"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoCore"
+
+    testImplementation "junit:junit:$junit"
+    testImplementation "androidx.room:room-testing:$room"
+    testImplementation "com.jraska.livedata:testing:$livedataTesting"
+    testImplementation "androidx.arch.core:core-testing:$coreTesting"
+    testImplementation "org.robolectric:robolectric:$robolectric"
+    testImplementation "androidx.test:core:1.2.0"
+    testImplementation "androidx.test.ext:junit:$androidJunit"
+    testImplementation "androidx.test.espresso:espresso-core:$espressoCore"
+    testImplementation "androidx.test.espresso:espresso-intents:$espressoCore"
+    testImplementation "androidx.test.ext:truth:1.2.0"
+    testImplementation "org.powermock:powermock-api-mockito2:2.0.2"
+    testImplementation "org.powermock:powermock-module-junit4:2.0.2"
+    testImplementation "org.powermock:powermock-api-support:2.0.2"
 }

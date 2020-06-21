@@ -13,4 +13,14 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room"
     testImplementation "com.jraska.livedata:testing:$livedataTesting"
     testImplementation "androidx.arch.core:core-testing:$coreTesting"
+    testImplementation "org.robolectric:robolectric:$robolectric"
+    testImplementation "org.powermock:powermock-api-mockito2:2.0.2"
+    testImplementation "org.powermock:powermock-module-junit4:2.0.2"
+    testImplementation "org.powermock:powermock-api-support:2.0.2"
+    testImplementation 'org.assertj:assertj-core:3.15.0'
+    testImplementation "org.mockito:mockito-core:$mockitoCore"
+    testImplementation "androidx.test.ext:junit:$androidJunit"
+    testImplementation "androidx.test.espresso:espresso-core:$espressoCore"
+    testImplementation "androidx.test.espresso:espresso-intents:$espressoCore"
+    testImplementation "androidx.fragment:fragment-testing:1.2.5"
 }

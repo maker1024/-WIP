@@ -13,10 +13,13 @@ import com.anightswip.bundleplatform.commonlib.page.BasePageStatus;
  */
 public class PageViewModel extends ViewModel {
 
-    protected MutableLiveData<BasePageStatus> mPageStatus;
+    final protected MutableLiveData<BasePageStatus> mPageStatus;
+
+    public PageViewModel() {
+        mPageStatus = new MediatorLiveData<>();
+    }
 
     public LiveData<BasePageStatus> getPageStatus() {
-        mPageStatus = new MediatorLiveData<>();
         return mPageStatus;
     }
 
@@ -27,9 +30,6 @@ public class PageViewModel extends ViewModel {
      * @return true 应答success, false 应答error
      */
     public boolean pageStatusNotify(BaseNetResponse response) {
-        if (mPageStatus == null) {
-            return false;
-        }
         if (response == null) {
             mPageStatus.setValue(BasePageStatus.errorData("数据错误"));
             return true;
