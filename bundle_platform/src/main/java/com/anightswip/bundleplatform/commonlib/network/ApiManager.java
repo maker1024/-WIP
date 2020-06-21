@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.anightswip.bundleplatform.commonlib.utils.GsonUtil;
-
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.security.KeyStore;
@@ -62,57 +62,34 @@ public class ApiManager implements IHttpRequest {
         mOkHttpClient.newCall(request2).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mOkHttpClient = buildOkhttpClient();//断网重连
-                BaseNetResponse<T> response = new BaseNetResponse<>();
-                response.hasError = true;
-                response.info = null;
-                response.errCode = BaseNetResponse.NO_NETWORK;
-                response.errMsg = Constant.NET_ERROR;
-                lv.postValue(response);
+                mOkHttpClient = buildOkhttpClient();//断网重连需要重新初始化httpclient
+                lv.postValue(BaseNetResponse.errorNetwork());
             }
 
             @Override
             public void onResponse(Call call, Response response) {
                 try {
                     if (!response.isSuccessful()) {
-                        BaseNetResponse<T> responseClient = new BaseNetResponse<>();
-                        responseClient.hasError = true;
-                        responseClient.info = null;
-                        responseClient.errCode = BaseNetResponse.SERVICE_ERROR;
-                        responseClient.errMsg = Constant.WEBSERVICE_ERROR;
-                        lv.postValue(responseClient);
+                        lv.postValue(BaseNetResponse.errorService());
                         return;
                     }
-                    JSONObject jsonResponse = new JSONObject(response.body().string());
-                    if (!jsonResponse.optBoolean("success")) {
-                        BaseNetResponse<T> responseClient = new BaseNetResponse<>();
-                        responseClient.hasError = true;
-                        responseClient.info = null;
-                        responseClient.errCode = BaseNetResponse.SERVICE_ERROR;
-                        responseClient.errMsg = Constant.WEBSERVICE_ERROR;
-                        lv.postValue(responseClient);
+                    JsonObject jsonResponse =
+                            JsonParser.parseString(response.body().string()).getAsJsonObject();
+                    if (!jsonResponse.get("success").getAsBoolean()) {
+                        lv.postValue(BaseNetResponse.errorService());
                         return;
                     }
-                    T bean = GsonUtil.getReponseBean(jsonResponse.optJSONObject("result"), classT);
+                    T bean = GsonUtil.getReponseBean(
+                            jsonResponse.get("result").getAsJsonObject().toString(), classT);
                     if (bean == null) {
-                        BaseNetResponse<T> responseClient = new BaseNetResponse<>();
-                        responseClient.hasError = true;
-                        responseClient.info = null;
-                        responseClient.errCode = BaseNetResponse.ERROR_DATA;
-                        responseClient.errMsg = Constant.DATA_ERROR;
-                        lv.postValue(responseClient);
+                        lv.postValue(BaseNetResponse.errorData());
                         return;
                     }
                     BaseNetResponse<T> responseClient = new BaseNetResponse<>();
                     responseClient.info = bean;
                     lv.postValue(responseClient);
                 } catch (Exception e) {
-                    BaseNetResponse<T> responseClient = new BaseNetResponse<>();
-                    responseClient.hasError = true;
-                    responseClient.info = null;
-                    responseClient.errCode = BaseNetResponse.SERVICE_ERROR;
-                    responseClient.errMsg = Constant.WEBSERVICE_ERROR;
-                    lv.postValue(responseClient);
+                    lv.postValue(BaseNetResponse.errorService());
                 }
             }
         });
