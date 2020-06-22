@@ -51,6 +51,23 @@ public class AppExecutorsTest {
                 assertTrue(RuntimeEnvironment.isMainThread());
             }
         });
+
+        assertThrows(IllegalStateException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                AppExecutors.init(Executors.newSingleThreadExecutor()
+                        , new UIThreadExecutor(RuntimeEnvironment.systemContext.getMainLooper()));
+            }
+        });
+
+        assertThrows(IllegalStateException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                AppExecutors.init();
+            }
+        });
+
+        assertTrue(AppExecutors.hasInit());
     }
 
 }

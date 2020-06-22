@@ -9,7 +9,7 @@ import com.anightswip.bundleplatform.commonlib.network.BaseNetResponse;
 
 import java.util.ArrayList;
 
-public class MobileDataBusinessImplTest implements IMobileDataBusiness {
+public class MobileDataBusinessImplTestCaseNetSuccess implements IMobileDataBusiness {
     @Override
     public LiveData<BaseNetResponse<BeanMobileDataList>> fetchMobileDataNet() {
         MediatorLiveData<BaseNetResponse<BeanMobileDataList>> netLd = new MediatorLiveData<>();

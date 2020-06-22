@@ -41,4 +41,8 @@ public class AppExecutors {
         }
         return UI_THREAD;
     }
+
+    public static boolean hasInit() {
+        return WORK_THREAD != null && UI_THREAD != null;
+    }
 }
